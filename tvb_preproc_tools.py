@@ -5,12 +5,12 @@ import os
 import matplotlib.pyplot as plt
 
 
-def extract_weights(zip_conn_folder):
+def extract_txt(zip_conn_folder,name_txt):
 
     archive = zipfile.ZipFile(zip_conn_folder)
     for file in archive.namelist():
         #print(file)
-        if 'weights.txt' in file:
+        if name_txt in file:
             if '__MAC' not in file: #maybe if you don't have a mac this is unuseful
                 archive.extract(file, os.getcwd())
                 dir_name = file
@@ -18,20 +18,7 @@ def extract_weights(zip_conn_folder):
     return os.getcwd() + '/' + dir_name
 
 
-def extract_tracts(zip_conn_folder):
-
-    archive = zipfile.ZipFile(zip_conn_folder)
-    for file in archive.namelist():
-        #print(file)
-        if 'tract_lengths.txt' in file:
-            if '__MAC' not in file: #maybe if you don't have a mac this is unuseful
-                archive.extract(file, os.getcwd())
-                dir_name = file
-
-    return os.getcwd() + '/' + dir_name
-
-
-def read_weights(file_txt_path):
+def read_txt(file_txt_path):
     input = np.loadtxt(file_txt_path, dtype='float', delimiter=' ')
     print(input)
 
@@ -53,6 +40,7 @@ def create_mask(weights, from_region, to_region, new_val):
     np.fill_diagonal(mask_w, 1)
     return mask_w
 
+
 def save_txt_matrix(mat_name, txt_name, folder_name):
 
     if not os.path.exists(folder_name):
@@ -66,6 +54,7 @@ def save_txt_matrix(mat_name, txt_name, folder_name):
 
     print('saved: ', folder_name + '/' + txt_name)
 
+
 def plot_weights_and_mask(weights, mask, new_weights, difference):
 
     interp = 'nearest' #'bilinear'
@@ -77,15 +66,35 @@ def plot_weights_and_mask(weights, mask, new_weights, difference):
 
     axs[0, 1].set_title('SC masked weights')
     pos1 = axs[0, 1].imshow(new_weights, cmap = 'jet', vmin=np.min(new_weights), vmax=np.max(weights), origin='upper', interpolation=interp)
-    fig.colorbar(pos1, ax=axs[0, 1], anchor=(0, 0.3), shrink=0.7)
+    fig.colorbar(pos1, ax=axs[0, 1], shrink=0.7)
 
     axs[1, 0].set_title('Mask')
     pos2 = axs[1, 0].imshow(mask, cmap = 'binary', origin='upper', interpolation=interp)
-    fig.colorbar(pos2, ax=axs[1, 0], anchor=(0, 0.3), shrink=0.7)
+    fig.colorbar(pos2, ax=axs[1, 0], shrink=0.7)
 
     axs[1, 1].set_title('Difference')
     pos3 = axs[1, 1].imshow(difference, cmap = 'RdPu', origin='upper', interpolation=interp)
-    fig.colorbar(pos3, ax=axs[1, 1], anchor=(0, 0.3), shrink=0.7)
+    fig.colorbar(pos3, ax=axs[1, 1], shrink=0.7)
+
+    plt.show()
+
+
+def plot_subnetworks(weights, tracts, fc):
+
+    interp = 'nearest' #'bilinear'
+    fig, axs = plt.subplots(nrows=1, ncols=3, sharex=True, figsize=(15, 3))
+
+    axs[0].set_title('SC weights')
+    pos0 = axs[0].imshow(weights, cmap = 'jet', vmin=np.min(weights), vmax=np.max(weights), origin= 'upper', interpolation=interp)
+    fig.colorbar(pos0, ax=axs[0], anchor=(0, 0.3), shrink=0.7)
+
+    axs[1].set_title('SC tract lengths')
+    pos1 = axs[1].imshow(tracts, cmap = 'jet', vmin=np.min(tracts), vmax=np.max(tracts), origin='upper', interpolation=interp)
+    fig.colorbar(pos1, ax=axs[1], anchor=(0, 0.3), shrink=0.7)
+
+    axs[2].set_title('FC')
+    pos2 = axs[2].imshow(fc, cmap = 'RdBu_r', origin='upper', interpolation=interp)
+    fig.colorbar(pos2, ax=axs[2], anchor=(0, 0.3), shrink=0.7)
 
     plt.show()
 

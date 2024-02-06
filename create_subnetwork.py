@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-FOLDER',
                         type=str,
-                        default='/Users/robertalorenzi/PycharmProjects/IntegrationMFCRBL/Mouse/tvb_model_reference/data/Mouse_512/Conn_Count_dirCRBL_100307_masked.zip',
+                        default='/home/bcc/projects/IntegrationMFCRBL/Mouse/tvb_model_reference/data/Mouse_512/100307_Conn_Count_dirCRBL_masked.zip',
                         help="path of connectivity.zip")
 
     parser.add_argument('-new_val',
@@ -30,21 +30,27 @@ if __name__ == '__main__':
 
 
     #Extract the weights from zip folder
-    txt_path_w = extract_weights(args.FOLDER)
-    txt_path_tl = extract_tracts(args.FOLDER)
+    txt_path_w = extract_txt(args.FOLDER,name_txt = 'weights.txt')
+    txt_path_tl = extract_txt(args.FOLDER,name_txt='tract_lengths.txt')
+    txt_path_fc = extract_txt(args.FOLDER,name_txt='functZ.txt')
 
     #Read the weights from extracted location
-    input_weights = read_weights(txt_path_w)
-    input_tracts = read_weights(txt_path_w)
+    input_weights = read_txt(txt_path_w)
+    input_tracts = read_txt(txt_path_tl)
+    input_fc = read_txt(txt_path_fc)
+
 
     #Extract subnetwork
     subnetwork_weights = input_weights[93:126, 93:126]
     subnetwork_tracts = input_tracts[93:126, 93:126]
+    subnetwork_fc = input_fc[93:126, 93:126]
 
     print(np.shape(subnetwork_weights))
     print(np.shape(subnetwork_tracts))
+    print(np.shape(subnetwork_fc))
 
-    save_txt_matrix(mat_name=np.matrix(subnetwork_weights), txt_name='weights.txt', folder_name='Conn_Count_dirCRBL_masked_ONLYCRBL')
-    save_txt_matrix(mat_name=np.matrix(subnetwork_tracts), txt_name='tract_lengths.txt', folder_name='Conn_Count_dirCRBL_masked_ONLYCRBL')
+    save_txt_matrix(mat_name=np.matrix(subnetwork_weights), txt_name='weights.txt', folder_name='100307_Conn_Count_dirCRBL_masked_ONLYCRBLnew')
+    save_txt_matrix(mat_name=np.matrix(subnetwork_tracts), txt_name='tract_lengths.txt', folder_name='100307_Conn_Count_dirCRBL_masked_ONLYCRBLnew')
+    save_txt_matrix(mat_name=np.matrix(subnetwork_fc), txt_name='functZ.txt', folder_name='100307_Conn_Count_dirCRBL_masked_ONLYCRBLnew')
 
-    plot_weights_and_mask(subnetwork_weights, subnetwork_tracts, input_weights, input_tracts)
+    plot_subnetworks(subnetwork_weights, subnetwork_tracts, subnetwork_fc)
