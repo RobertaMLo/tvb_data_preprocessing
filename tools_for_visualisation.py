@@ -37,7 +37,7 @@ def plot_your_matrix(matrix, labels, step_labels, title, cbar_name, cmap_type, f
     """
     fig, axs = plt.subplots(nrows=1, ncols=1, figsize=figdim)
     axs.set_title(title)
-    pos0 = axs.imshow(matrix, cmap = cmap_type, vmin=np.min(matrix), vmax=np.max(matrix), origin= 'upper')
+    pos0 = axs.imshow(matrix, cmap = cmap_type, vmin=np.min(matrix), vmax=np.max(matrix)/10, origin= 'upper')
     cb0 = fig.colorbar(pos0, ax=axs, anchor=(0, 0.3), shrink=0.7)
     cb0.set_label(cbar_name, fontsize=12)
     axs.set_xticks(np.arange(0, len(labels[0:-1]), step_labels), labels[0:-1:step_labels], fontsize=9, rotation=90)
@@ -67,14 +67,14 @@ def plot_2_matrices(matrix, labels, step_labels, title, cbar_name, cmap,
     """
     fig, axs = plt.subplots(nrows=1, ncols=2, figsize=figdim)
     axs[0].set_title(title)
-    pos0 = axs[0].imshow(matrix, cmap = cmap, vmin=np.min(matrix), vmax=np.max(matrix), origin= 'upper')
+    pos0 = axs[0].imshow(matrix, cmap = cmap, vmin=np.min(matrix), vmax=np.max(matrix) *1e-1, origin= 'upper')
     cb0 = fig.colorbar(pos0, ax=axs[0], anchor=(0, 0.3), shrink=0.7)
     cb0.set_label(cbar_name, fontsize=12)
     axs[0].set_xticks(np.arange(0, len(labels[0:-1]), step_labels), labels[0:-1:step_labels], fontsize=9, rotation=90)
     axs[0].set_yticks(np.arange(0, len(labels[0:-1]), step_labels), labels[0:-1:step_labels], fontsize=9)
 
     axs[1].set_title(title1)
-    pos1 = axs[1].imshow(matrix1, cmap = cmap1, vmin=np.min(matrix1), vmax=np.max(matrix1), origin= 'upper')
+    pos1 = axs[1].imshow(matrix1, cmap = cmap1, vmin=np.min(matrix), vmax=np.max(matrix)*1e-1, origin= 'upper')
     cb1 = fig.colorbar(pos1, ax=axs[1], anchor=(0, 0.3), shrink=0.7)
     cb1.set_label(cbar_name1, fontsize=12)
     axs[1].set_xticks(np.arange(0, len(labels1[0:-1]), step_labels1), labels1[0:-1:step_labels1], fontsize=9, rotation=90)

@@ -40,7 +40,7 @@ def plot_weights_and_mask(matAE, matAO, labels):
     #(matAO, cmap = 'bwr', vmin=np.min(matAO), vmax=np.max(matAE), origin='upper', interpolation=interp)
     pos1 = axs[1].imshow(matAO, cmap = 'seismic', norm=norm, origin='upper', interpolation=interp)
     cb1 = fig.colorbar(pos1, ax=axs[1], anchor=(0, 0.3), shrink=0.7)
-    cb1.set_label('Influence [Hz]', fontsize=12)
+    cb1.set_label('Strength [Hz]', fontsize=12)
 
     for ax in axs:
         # ax.yaxis.grid(True)
@@ -55,14 +55,14 @@ def plot_weights_and_mask(matAE, matAO, labels):
 
 if __name__ == '__main__':
 
-    root_path = '/Users/robertalorenzi/Desktop/ISMRM2024/AEO'
-    AE = 'BMA_AE.txt'
-    AO = 'AO_BMA.txt'
+    root_path = '/Users/robertalorenzi/Desktop/'
+    AE = 'BMA_AE_RESHAPE.txt'
+    AO = 'AO_BMA_RESHAPE.txt'
 
     matAE = read_weights(root_path +'/' + AE)
     matAO = read_weights(root_path +'/' + AO)
 
-    labels = ['M1 L', 'SMAPMC L', 'SPL L', 'CC L', 'CRBL R', 'V1 BIL']
+    labels = ['V1_BIL','M1 L', 'SMAPMC L', 'SPL L', 'CC L', 'CRBL R']
     print(labels)
 
     plot_weights_and_mask(matAE, matAO, labels)
