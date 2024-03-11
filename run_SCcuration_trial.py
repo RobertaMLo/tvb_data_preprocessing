@@ -18,7 +18,7 @@ prot_folder = 'HCP_TVBmm_30M/'
 #prot_folder = 'HCP_TVBmm/'
 conn_folder = 'Connectome'
 conn_folder2 = 'Connectome_all'
-SUB_ID = '101915'
+SUB_ID =  '103414' #'100307' #'101915'
 
 SUB_DIR = root_path + prot_folder + SUB_ID + '/T1w/'
 

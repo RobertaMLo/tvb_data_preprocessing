@@ -1,5 +1,7 @@
 import numpy as np
 import os
+import shutil
+import zipfile
 
 def merge_SC_all_radial(SCall, SCrad, idxdent):
 
@@ -146,3 +148,27 @@ def save_curated_matrix(matrix_to_save, original_filename, SUB_DIR, conn_folder)
 
     np.savetxt(curated_filename, matrix_to_save)
     print(curated_filename + ' successfully saved')
+
+
+def built_zip_forTVB(subject_folder, dest_dir, filenames, centres_filepath):
+
+    # mapping of filename into name specific for TVB
+    filename_mapping = {
+        filenames[0]: 'weights.txt',
+        filenames[1]: 'tract_lengths.txt'
+    }
+
+    #Check if file exists
+    for filename in filenames:
+        file_path = os.path.join(subject_folder, filename)
+        if os.path.exists(file_path):
+            #updating filenames
+            dest_filename = filename_mapping.get(filename, filename)
+            #copying file with updated filenames
+            shutil.copy(file_path, os.path.join(dest_dir, dest_filename))
+
+    #copying centres file
+    shutil.copy(centres_filepath, os.path.join(dest_dir, 'centres.txt'))
+
+    # Zip the destination directory
+    shutil.make_archive(dest_dir, 'zip', dest_dir)
