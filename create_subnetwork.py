@@ -1,4 +1,4 @@
-from tvb_preproc_tools import *
+from tools_for_SCsubnetworks import *
 
 if __name__ == '__main__':
     import argparse
@@ -15,24 +15,37 @@ if __name__ == '__main__':
                                      formatter_class=argparse.RawTextHelpFormatter)
 
 
-    parser.add_argument('-FOLDER',
+    parser.add_argument('FOLDER',
                         type=str,
                         default='/home/bcc/projects/IntegrationMFCRBL/Mouse/tvb_model_reference/data/Mouse_512/100307_Conn_Count_dirCRBL_masked.zip',
                         help="path of connectivity.zip")
 
-    parser.add_argument('-new_val',
+    parser.add_argument('subnet_ind',
+                        type=int,
+                        default=np.array([93, 126]),
+                        help="first and last index of the subnetwork. Default for the cerebellum from AAL_SUIT 23 centers atlas (Fastigial included)")
+
+    parser.add_argument('-DCN_ind',
+                        type=int,
+                        default=np.array([103, 104, 105, 113, 114, 115]),
+                        help="Deep cerebellar nuclei Index. Default from AAL_SUIT 32 centers atlas (Fastigial included)")
+
+    parser.add_argument('--new_val',
                         type=float,
                         default=-1.,
-                        help="default value to create the mask")
+                        help="default value to create the mask for DCN")
 
 
     args = parser.parse_args()
 
+    first_ind = args.subnet_ind[0]
+    last_ind = args.subnet_ind[-1]
+
 
     #Extract the weights from zip folder
-    txt_path_w = extract_txt(args.FOLDER,name_txt = 'weights.txt')
-    txt_path_tl = extract_txt(args.FOLDER,name_txt='tract_lengths.txt')
-    txt_path_fc = extract_txt(args.FOLDER,name_txt='functZ.txt')
+    txt_path_w = extract_txt(args.FOLDER, name_txt = 'weights.txt')
+    txt_path_tl = extract_txt(args.FOLDER, name_txt = 'tract_lengths.txt')
+    txt_path_fc = extract_txt(args.FOLDER, name_txt = 'functZ.txt')
 
     #Read the weights from extracted location
     input_weights = read_txt(txt_path_w)
@@ -41,9 +54,9 @@ if __name__ == '__main__':
 
 
     #Extract subnetwork
-    subnetwork_weights = input_weights[93:126, 93:126]
-    subnetwork_tracts = input_tracts[93:126, 93:126]
-    subnetwork_fc = input_fc[93:126, 93:126]
+    subnetwork_weights = input_weights[first_ind:last_ind, first_ind:last_ind]
+    subnetwork_tracts = input_tracts[first_ind:last_ind, first_ind:last_ind]
+    subnetwork_fc = input_fc[first_ind:last_ind, first_ind:last_ind]
 
     print(np.shape(subnetwork_weights))
     print(np.shape(subnetwork_tracts))

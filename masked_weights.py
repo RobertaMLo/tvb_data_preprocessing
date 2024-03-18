@@ -1,4 +1,4 @@
-from tvb_preproc_tools import *
+from tools_for_SCsubnetworks import *
 
 if __name__ == '__main__':
     import argparse

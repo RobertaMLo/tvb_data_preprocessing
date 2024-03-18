@@ -1,20 +1,21 @@
-from curation_SC import built_zip_forTVB
+from tools_for_curation_SC import built_zip_forTVB
 import os
 
 root_path = '/Users/robertalorenzi/Documents/4_Postdoc/0ngoing/1_MF/1_MF_Integration/Data/connectivity_data/'
 
-#prot_folder = 'HCP_TVBmm_30M/'
-prot_folder = 'HCP_TVBmm/'
+prot_folder = 'HCP_TVBmm_30M/'
+#prot_folder = 'HCP_TVBmm/'
 source_dir = os.path.join(root_path, prot_folder)
-subject_ids = ['100307/T1w', '101915/T1w', '103414/T1w']
-#conn_folder = 'Connectome_all'
-conn_folder = 'Connectome'
+#subject_ids = ['100307/T1w', '101915/T1w', '103414/T1w']
+subject_ids = ['103414/T1w']
+conn_folder = 'Connectome_all'
+#conn_folder = 'Connectome'
 
-centres_filepath = root_path + 'centres.txt'
+centres_filepath = root_path + 'centres_crbl_cortex.txt'
 
-name_mat4TVB_folder = 'SC_dirCB'
+name_mat4TVB_folder = 'SC_dirCB_ONLYCRBL'
 
-filenames = ['atlas_SC_count_dirCb_NORM_CURATED.txt', 'atlas_SC_length_dirCb.txt']
+filenames = ['atlas_SC_count_dirCb_NORM_CURATED_ONLYCRBL.txt', 'atlas_SC_length_dirCb_ONLYCRBL.txt']
 
 for subject_id in subject_ids:
 

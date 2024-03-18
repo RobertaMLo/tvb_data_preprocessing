@@ -1,11 +1,9 @@
-import argparse
 import numpy as np
 import zipfile
 import os
 import matplotlib.pyplot as plt
 
-
-def extract_txt(zip_conn_folder,name_txt):
+def extract_txt(zip_conn_folder, name_txt):
 
     archive = zipfile.ZipFile(zip_conn_folder)
     for file in archive.namelist():
@@ -25,6 +23,19 @@ def read_txt(file_txt_path):
     return input
 
 
+def read_centre_txt(file_centre_path):
+    """
+    Function to read centre.txt which is a txt file with both lables (string) and centres (float)
+    :param file_centre_path: full path of the centre file
+    :return: dcitionary containing labels and MNI centers
+    """
+    # Read the contents of the file
+    with open(file_centre_path, "r") as file:
+        lines = file.readlines()
+
+    return lines
+
+
 def create_mask(weights, from_region, to_region, new_val):
 
     mask_w = np.ones(np.shape(weights))
@@ -35,24 +46,32 @@ def create_mask(weights, from_region, to_region, new_val):
             #print(tr)
 
             mask_w[tr, fr] = mask_w[tr, fr] * new_val
-            print(mask_w[tr,fr])
+            print(mask_w[tr, fr])
 
     np.fill_diagonal(mask_w, 1)
     return mask_w
 
 
-def save_txt_matrix(mat_name, txt_name, folder_name):
+def delete_DCN(weights, tracts, centers, DCN_idx):
 
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
+    mask = np.ones(np.shape(weights)[0], dtype=bool)
+    mask[DCN_idx] = False
 
-    txt_full_path = os.getcwd()+'/'+folder_name+'/'+txt_name
+    weights_no_DCN = weights[mask, :]
+    weights_no_DCN = weights_no_DCN[:, mask]
 
-    with open(txt_full_path, 'w') as f:
-        for line in mat_name:
-            np.savetxt(f, line)
+    tracts_no_DCN = tracts[mask, :]
+    tracts_no_DCN = tracts_no_DCN[:, mask]
 
-    print('saved: ', folder_name + '/' + txt_name)
+    centers_no_DCN = [centres for i, centres in enumerate(centers) if i+1 not in DCN_idx]
+
+    return weights_no_DCN, tracts_no_DCN, centers_no_DCN
+
+
+def save_txt_centres(file_path, centres):
+
+    with open(file_path, "w") as file:
+        file.writelines(centres)
 
 
 def plot_weights_and_mask(weights, mask, new_weights, difference):
@@ -97,7 +116,6 @@ def plot_subnetworks(weights, tracts, fc):
     fig.colorbar(pos2, ax=axs[2], anchor=(0, 0.3), shrink=0.7)
 
     plt.show()
-
 
 
 

@@ -1,6 +1,6 @@
 
 import numpy as np
-from curation_SC import fix_fromdentate2crblctx, mapping_parallel, merge_SC_all_radial, read_txt_vol, save_curated_matrix
+from tools_for_curation_SC import fix_fromdentate2crblctx, mapping_parallel, merge_SC_all_radial, read_txt_vol, save_curated_matrix
 from tools_for_visualisation import load_matrix_and_labels, plot_your_matrix, plot_2_matrices
 
 """
@@ -64,9 +64,9 @@ plot_your_matrix(SC_curated[93:, 93:], labels[93:], 1, title='SC', cbar_name='we
 
 # # 2) CURATION OF INTRA-HEMISPHERE CONNECTIVITY ON THE DCN CURATED SC
 # # 2.1 decide lobule-hemisphere ipsilateral and symmetrical connectivity
-idx_L = np.arange(95, 102+1, 1)
-idx_V = np.arange(105, 112+1, 1)
-idx_V[0] = idx_V[0]+1 #trucchetto per avere 106 due volte. infatti arange parte da 105.
+idx_L = np.arange(96, 102+1, 1)
+idx_V = np.arange(106, 112+1, 1)
+#idx_V[0] = idx_V[0]+1  # trucchetto per avere 106 due volte. infatti arange parte da 105 --> la lascio lobulo-lobulo.
 # # 2.2 set Kp starting from SNN simulation (Geminiani et al., 2019)
 Kp = (907.9*70 + 1463*99 + 484.4*299 + 735.4*14) / (70 + 99 + 299 + 247) #media pesata per la numerosità di cellule
 # # 0.2 perchè ho sempre preso il 20%

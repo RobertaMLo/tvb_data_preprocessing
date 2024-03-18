@@ -108,10 +108,10 @@ def mapping_parallel(SC, Kp, Lob_vols, ICV, idx_L, idx_V, fromRtoL=23):
     idx_R = idx_L + fromRtoL
 
     # TO Left Hemisphere FROM Vermis
-    SC_parallel_map[idx_L, idx_V] = Kp * (np.mean(np.array([Lob_vols[idx_L-93], Lob_vols[idx_V-93]]), axis = 0)/ICV)
+    SC_parallel_map[idx_L, idx_V] = Kp * (np.mean(np.array([Lob_vols[idx_L-93], Lob_vols[idx_V-93]]), axis=0)/ICV)
 
     # TO Rigth Hemisphere FROM Vermis
-    SC_parallel_map[idx_R, idx_V] = Kp * (np.mean(np.array([Lob_vols[idx_R-93], Lob_vols[idx_V-93]]), axis = 0)/ICV)
+    SC_parallel_map[idx_R, idx_V] = Kp * (np.mean(np.array([Lob_vols[idx_R-93], Lob_vols[idx_V-93]]), axis=0)/ICV)
 
     # TO Vermis from Hemispheres R and L
     # for the moment matrix is symmetric
@@ -138,16 +138,17 @@ def read_txt_vol(filename):
     return vol_vox, vol_mm
 
 
-def save_curated_matrix(matrix_to_save, original_filename, SUB_DIR, conn_folder):
+def save_curated_matrix(matrix_to_save, original_filename, SUB_DIR, conn_folder, name_suffix="_CURATED"):
 
-    # Extract the base name of the file (without extension). Pos 0 = filenam, Pos 1 = extension
+    # Extract the base name of the file (without extension). Pos 0 = filename, Pos 1 = extension
     base_name = os.path.splitext(os.path.basename(original_filename))[0]
 
     # Save the matrix to a new file with the desired name pattern
-    curated_filename = os.path.join(SUB_DIR, conn_folder, base_name + "_CURATED.txt")
+    curated_filename = os.path.join(SUB_DIR, conn_folder, base_name + name_suffix + ".txt")
 
     np.savetxt(curated_filename, matrix_to_save)
     print(curated_filename + ' successfully saved')
+    return curated_filename
 
 
 def built_zip_forTVB(subject_folder, dest_dir, filenames, centres_filepath):
@@ -155,7 +156,7 @@ def built_zip_forTVB(subject_folder, dest_dir, filenames, centres_filepath):
     # mapping of filename into name specific for TVB
     filename_mapping = {
         filenames[0]: 'weights.txt',
-        filenames[1]: 'tract_lengths.txt'
+        filenames[1]: 'tract_lengths.txt',
     }
 
     #Check if file exists
@@ -168,7 +169,9 @@ def built_zip_forTVB(subject_folder, dest_dir, filenames, centres_filepath):
             shutil.copy(file_path, os.path.join(dest_dir, dest_filename))
 
     #copying centres file
+    _, c_filename = os.path.split(centres_filepath)
     shutil.copy(centres_filepath, os.path.join(dest_dir, 'centres.txt'))
 
     # Zip the destination directory
     shutil.make_archive(dest_dir, 'zip', dest_dir)
+
