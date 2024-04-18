@@ -145,6 +145,7 @@ def save_curated_matrix(matrix_to_save, original_filename, SUB_DIR, conn_folder,
 
     # Save the matrix to a new file with the desired name pattern
     curated_filename = os.path.join(SUB_DIR, conn_folder, base_name + name_suffix + ".txt")
+    print('ehiiiii', curated_filename)
 
     np.savetxt(curated_filename, matrix_to_save)
     print(curated_filename + ' successfully saved')

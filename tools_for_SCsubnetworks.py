@@ -63,7 +63,7 @@ def delete_DCN(weights, tracts, centers, DCN_idx):
     tracts_no_DCN = tracts[mask, :]
     tracts_no_DCN = tracts_no_DCN[:, mask]
 
-    centers_no_DCN = [centres for i, centres in enumerate(centers) if i+1 not in DCN_idx]
+    centers_no_DCN = [centres for i, centres in enumerate(centers) if i+1 not in DCN_idx+1]
 
     return weights_no_DCN, tracts_no_DCN, centers_no_DCN
 

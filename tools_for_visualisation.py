@@ -37,7 +37,7 @@ def plot_your_matrix(matrix, labels, step_labels, title, cbar_name, cmap_type, f
     """
     fig, axs = plt.subplots(nrows=1, ncols=1, figsize=figdim)
     axs.set_title(title)
-    pos0 = axs.imshow(matrix, cmap = cmap_type, vmin=np.min(matrix), vmax=np.max(matrix)/10, origin= 'upper')
+    pos0 = axs.imshow(matrix, cmap = cmap_type, vmin=np.min(matrix), vmax=np.max(matrix), origin= 'upper')
     cb0 = fig.colorbar(pos0, ax=axs, anchor=(0, 0.3), shrink=0.7)
     cb0.set_label(cbar_name, fontsize=12)
     axs.set_xticks(np.arange(0, len(labels[0:-1]), step_labels), labels[0:-1:step_labels], fontsize=9, rotation=90)

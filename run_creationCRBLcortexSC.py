@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--prot_dir',
                         type=str,
-                        default='/Users/robertalorenzi/Documents/4_Postdoc/0ngoing/1_MF/1_MF_Integration/Data/connectivity_data/HCP_TVBmm_30M/',
+                        default='/media/bcc/Volume/Analysis/Roberta/HCP_TVBmm_30M/',
                         help="protocol_directory")
 
     parser.add_argument('--suffix_subSC',
@@ -95,9 +95,9 @@ if __name__ == '__main__':
     weights_no_DCN, tracts_no_DCN, centers_no_DCN = delete_DCN(weights, tracts, centres, DCN_idx)
 
     # Extract CRBL CORTEX subnetwork -----------------------------------------------------------------------------------
-    subnetwork_weights = weights_no_DCN[first_ind:last_ind, first_ind:last_ind]
-    subnetwork_tracts = tracts_no_DCN[first_ind:last_ind, first_ind:last_ind]
-    subnetwork_centres = centers_no_DCN[first_ind:last_ind]
+    subnetwork_weights = weights_no_DCN[first_ind:, first_ind:]
+    subnetwork_tracts = tracts_no_DCN[first_ind:, first_ind:]
+    subnetwork_centres = centers_no_DCN[first_ind:]
 
     # Saving the subnetwork --------------------------------------------------------------------------------------------
     w_sub_filename = save_curated_matrix(subnetwork_weights, SC_path_w, SUB_DIR, conn_folder, suffix_subSC)
